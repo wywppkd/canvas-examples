@@ -38,7 +38,7 @@ const Index = () => {
       const { naturalHeight, naturalWidth } = imgElement;
 
       // 根据背景图尺寸创建 canvas
-      const canvas = new fabric.Canvas(refCanvas.current, {
+      const fabricCanvas = new fabric.Canvas(refCanvas.current, {
         width: naturalWidth / 2, // 取背景图尺寸的 1/2
         height: naturalHeight / 2,
         preserveObjectStacking: true, // 点击背景图时避免覆盖其他图层
@@ -53,9 +53,9 @@ const Index = () => {
       });
 
       // 绘制背景图
-      canvas.add(fabricImage);
+      fabricCanvas.add(fabricImage);
 
-      setFabricCanvas(canvas);
+      setFabricCanvas(fabricCanvas);
     })();
   }, []);
 
