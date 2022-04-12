@@ -64,12 +64,12 @@ const Index = () => {
       if (fabricImage) {
         // 有二维码
         fabricImage.setSrc(dataUrl, () => {
-          fabricCanvas?.renderAll();
+          fabricCanvas?.discardActiveObject()?.renderAll();
           refCanvas.current?.toBlob((blob) => resolve(blob));
         });
       } else {
         // 无二维码
-        fabricCanvas?.renderAll();
+        fabricCanvas?.discardActiveObject()?.renderAll();
         refCanvas.current?.toBlob((blob) => resolve(blob));
       }
     });
