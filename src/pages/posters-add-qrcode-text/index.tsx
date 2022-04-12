@@ -31,12 +31,13 @@ const Index = () => {
 
   useEffect(() => {
     (async () => {
+      // 根据url生成 img 元素
       const imgElement = await generateImgElement(
         'https://images.unsplash.com/photo-1496307653780-42ee777d4833?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1600&ixid=MnwxfDB8MXxyYW5kb218MHx8d2hpdGV8fHx8fHwxNjQ5NDExNzA3&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=750',
       );
       const { naturalHeight, naturalWidth } = imgElement;
 
-      // 根据海报图尺寸生成canvas
+      // 根据背景图尺寸创建 canvas
       const canvas = new fabric.Canvas(refCanvas.current, {
         width: naturalWidth / 2, // 取背景图尺寸的 1/2
         height: naturalHeight / 2,
@@ -46,12 +47,12 @@ const Index = () => {
       const fabricImage = new fabric.Image(imgElement, {
         left: 0,
         top: 0,
-        scaleX: 0.5,
+        scaleX: 0.5, // 背景图缩小 1/2
         scaleY: 0.5,
-        selectable: false,
+        selectable: false, // 禁止选中背景图
       });
 
-      // 设置海报背景图
+      // 绘制背景图
       canvas.add(fabricImage);
 
       setFabricCanvas(canvas);
@@ -115,16 +116,15 @@ const Index = () => {
 
             for (const item of schools) {
               if (fabricText) {
-                const origin = fabricText?.getPointByOrigin('center', 'center');
+                const origin = fabricText?.getPointByOrigin('center', 'center'); // 获取旧文本中心位置
                 fabricText?.set('text', item.schoolName);
-                fabricText?.setPositionByOrigin(origin, 'center', 'center');
-                fabricText?.set('textAlign', 'center');
+                fabricText?.setPositionByOrigin(origin, 'center', 'center'); // 设置新文本中心位置
               }
 
               // 链接转二维码
               const dataUrl = await QRCode.toDataURL(item.signUpLink, {
                 margin: 0,
-                width: fabricImage?.getOriginalSize().width, // 二维码实际尺寸
+                width: fabricImage?.getOriginalSize().width, // 和原二维码尺寸一致
               });
 
               const blob = await dataUrlToBlob(dataUrl);
